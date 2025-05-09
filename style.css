@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: url('gym.jpeg') no-repeat center center/cover;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+}
+body {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+.overlay {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.main-logo {
+  font-size: 64px;
+  font-weight: bold;
+  color: #c6ff00; /* Neon green/yellow */
+  letter-spacing: 2px;
+  margin-bottom: 0px;
+}
+
+.main-logo span {
+  color: white;
+}
+
+.subtext {
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  
+  color: #c6ff00;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.login-form input {
+  width: 280px;
+  padding: 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.login-form input::placeholder {
+  color: #aaa;
+}
+
+.login-form .options { 
+        width: 280px;
+        display: flex;
+        justify-content: 100px; /* <- Space between both */
+        align-items: 70px; /* Align text vertically */
+        font-size: 12px;
+        color: #eee;
+        margin-right: 100px;
+        margin-top: -8px; /* Adjust spacing if needed */
+}
+
+.login-form a {
+  color: #c6ff00;
+  text-decoration: none;
+}
+
+.login-form button {
+  width: 280px;
+  padding: 12px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  background: #c6ff00;
+  color: black;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-form button:hover {
+  background: #b2ff59;
+}

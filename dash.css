@@ -1,0 +1,138 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #121212;
+  color: #fff;
+  padding: 20px;
+}
+
+/* Top Profile Section */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  background: url('https://via.placeholder.com/50') center/cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Main Container */
+.container {
+  margin-top: 20px;
+}
+
+/* Circle Section */
+.circle-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1c1c1c;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.activity-rings {
+  transform: rotate(-90deg);
+}
+
+/* Rings */
+.ring-bg {
+  fill: none;
+  stroke: #333;
+  stroke-width: 18;
+}
+
+.ring {
+  fill: none;
+  stroke-width: 18;
+  stroke-linecap: round;
+  stroke-dasharray: 628;
+  stroke-dashoffset: 628;
+  transition: stroke-dashoffset 1.5s ease-in-out;
+}
+
+.move {
+  stroke: #ff3d57;
+}
+
+.exercise {
+  stroke: #00ff85;
+}
+
+.stand {
+  stroke: #ffffff;
+}
+
+/* Stats (Move/Exercise/Stand) */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.stat-box {
+  background: #222;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+  text-align: center;
+  font-size: 1rem;
+  min-width: 100px;
+  line-height: 1.5;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+}
+
+.stat-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Info Boxes (Meal, Workout, etc.) */
+.info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 40px;
+  justify-content: space-around;
+}
+
+.info-box {
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.08);
+}
+
+.info-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+.info-link {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+}

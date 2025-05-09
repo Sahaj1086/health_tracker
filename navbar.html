@@ -1,0 +1,72 @@
+<div class="navbar">
+    <a href="dashboard.php" id="home-link" class="gradient-link">Home</a>
+    <a href="activity.php" id="activity-link" class="gradient-link">Activity</a>
+    <a href="meal.php" id="meal-link" class="gradient-link">Meal</a>
+    <a href="share.php" id="share-link" class="gradient-link">Sharing</a>
+    <a href="reports.php" id="reports-link" class="gradient-link">Reports</a>
+    <a href="profile.php" id="profile-link" class="gradient-link">Profile</a>
+</div>
+
+<style>
+/* Gradient Underline Effect */
+.gradient-link {
+  position: relative;
+  padding: 5px 0;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 15px;
+  transition: color 0.3s ease;
+}
+
+/* Ensure visited links maintain white color */
+.gradient-link:visited {
+  color: #ffffff;
+}
+
+/* Underline animation */
+.gradient-link::after,
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #ff5252, #ff1744); /* Gradient colors */
+  transition: width 0.3s ease;
+}
+
+/* Hover and Active Effect */
+.gradient-link:hover::after,
+.active::after {
+  width: 100%;
+}
+
+.gradient-link:hover,
+.active {
+  color: #ff5252;
+}
+
+</style>
+
+<script>
+    // Get the current file name from the URL
+    const currentPage = window.location.pathname.split("/").pop();
+
+    // Map file names to link IDs
+    const pageMap = {
+        "dashboard.php": "home-link",
+        "activity.php": "activity-link",
+        "meal.php": "meal-link",
+        "share.php": "share-link",
+        "reports.php": "reports-link",
+        "profile.php": "profile-link"
+    };
+
+    // Set active class based on current page
+    if (pageMap[currentPage]) {
+        const activeLink = document.getElementById(pageMap[currentPage]);
+        activeLink.classList.add("active");
+    }
+</script>

@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapMyFitness - Track Your Fitness Journey</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Base Styles */
+    :root {
+      --primary-color: #ff5252;
+      --secondary-color: #2196f3;
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --text-secondary: #b3b3b3;
+      --border-color: #333333;
+      --success-color: #4caf50;
+      --gradient-primary: linear-gradient(135deg, #ff5252, #ff1744);
+      --gradient-secondary: linear-gradient(135deg, #2196f3, #0d47a1);
+      --transition-slow: all 0.5s ease;
+      --transition-medium: all 0.3s ease;
+      --transition-fast: all 0.2s ease;
+      --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.15);
+      --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    a:hover {
+      color: var(--primary-color);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition-medium);
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(255, 82, 82, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+      }
+    }
+
+    /* Header Styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      background-color: var(--darker-bg);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0;
+      letter-spacing: 1px;
+    }
+
+    .logo p {
+      font-size: 0.7rem;
+      margin-bottom: 0;
+      opacity: 0.7;
+    }
+
+    .logo span {
+      color: var(--primary-color);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 5px 0;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: var(--transition-medium);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+    }
+
+    .mobile-menu-toggle span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background-color: var(--text-color);
+      transition: var(--transition-medium);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background-color: var(--darker-bg);
+      padding: 20px;
+      z-index: 999;
+      transform: translateY(-100%);
+      transition: var(--transition-medium);
+    }
+
+    .mobile-menu.active {
+      transform: translateY(0);
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+    }
+
+    .mobile-menu ul li {
+      margin-bottom: 15px;
+    }
+
+    .mobile-menu ul li a {
+      display: block;
+      padding: 10px 0;
+      font-size: 1.1rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80') no-repeat center center;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.4));
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      margin-left: 10%;
+      gap: 20px;
+    }
+
+    .hero-content h2 {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .cta-container {
+      margin-top: 2rem;
+    }
+
+    .cta-container input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.9);
+      font-size: 1rem;
+    }
+
+    .cta-container p {
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .cta-container a {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    /* Goals Section */
+    .goals {
+      background-color: var(--dark-bg);
+      overflow: hidden;
+    }
+
+    .goals-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .goals-text h2 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .goals-image {
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .goals-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    }
+
+    /* Challenge Section */
+    .challenge {
+      background-color: var(--darker-bg);
+      padding: 60px 0;
+    }
+
+    .challenge-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .challenge-split {
+      position: relative;
+      height: 300px;
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .challenge-image {
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .challenge-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .challenge-blue {
+      width: 50%;
+      height: 100%;
+      background: var(--gradient-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .vs-text {
+      text-align: center;
+    }
+
+    .vs-text h3 {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .challenge-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .challenge-info h3 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .progress-container {
+      margin-top: 1.5rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress {
+      height: 100%;
+      background: var(--gradient-primary);
+      border-radius: 4px;
+      transition: width 1.5s ease-in-out;
+    }
+
+    /* Push Limits Section */
+    .push-limits {
+      text-align: center;
+      background-color: var(--dark-bg);
+      padding: 80px 0;
+    }
+
+    .push-limits h2 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .monthly-challenges {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .challenge-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-medium);
+      border: 1px solid var(--border-color);
+    }
+
+    .challenge-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-strong);
+      border-color: var(--primary-color);
+    }
+
+    .challenge-icon {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .challenge-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .challenge-card p {
+      margin-bottom: 20px;
+    }
+
+    .challenge-progress {
+      margin-top: 20px;
+    }
+
+    /* Features Section */
+    .features {
+      background-color: var(--darker-bg);
+      padding: 80px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .feature-item {
+      margin-bottom: 30px;
+    }
+
+    .feature-item h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .feature-item h3 i {
+      margin-right: 10px;
+      color: var(--primary-color);
+    }
+
+    .app-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .app-button {
+      display: flex;
+      align-items: center;
+      background-color: var(--card-bg);
+      padding: 10px 15px;
+      border-radius: 6px;
+      transition: var(--transition-medium);
+    }
+
+    .app-button:hover {
+      background-color: var(--border-color);
+    }
+
+    .app-button i {
+      font-size: 1.8rem;
+      margin-right: 10px;
+    }
+
+    .app-button div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-button span:first-child {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
+    .app-button span:last-child {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .workout-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow-strong);
+      border: 1px solid var(--border-color);
+    }
+
+    .workout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .settings-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .settings-button:hover {
+      color: var(--primary-color);
+    }
+
+    .splits-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .split-number, .split-time {
+      text-align: center;
+    }
+
+    .split-number {
+      font-weight: 600;
+    }
+
+    .pace-section, .elevation-section {
+      margin-bottom: 30px;
+    }
+
+    .pace-section h4, .elevation-section h4 {
+      font-size: 0.8rem;
+      margin-bottom: 15px;
+      color: var(--text-secondary);
+    }
+
+    .pace-chart {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 150px;
+      margin-bottom: 10px;
+    }
+
+    .pace-bar {
+      width: 18%;
+      background: var(--primary-color);
+      border-radius: 3px 3px 0 0;
+      transition: height 1s ease-in-out;
+    }
+
+    .pace-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .elevation-chart {
+      height: 100px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .elevation-chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .elevation-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .view-all {
+      text-align: right;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .view-all a {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .view-all a i {
+      margin-left: 5px;
+    }
+
+    .likes-section h4 {
+      margin-bottom: 10px;
+    }
+
+    /* Stats Section */
+    .stats {
+      background-color: var(--dark-bg);
+      padding: 100px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 40px 20px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-medium);
+      border: 1px solid var(--border-color);
+    }
+
+    .stat-item:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .stat-item h3 {
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      color: var(--text-secondary);
+    }
+
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-item p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--darker-bg);
+      padding: 80px 0 40px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand h2 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+
+    .footer-brand p {
+      margin-bottom: 20px;
+      font-size: 0.8rem;
+    }
+
+    .footer-links h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links ul li a {
+      color: var(--text-secondary);
+      transition: var(--transition-fast);
+    }
+
+    .footer-links ul li a:hover {
+      color: var(--primary-color);
+    }
+
+    .social-links li a {
+      display: flex;
+      align-items: center;
+    }
+
+    .social-links li a i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .footer-logo img {
+      height: 30px;
+    }
+
+    .footer-copyright {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .footer-legal {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      text-align: center;
+    }
+
+    .footer-legal a {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-align: center;
+
+    }
+
+    /* Animation Classes */
+    .reveal-text, .reveal-image, .reveal-card {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-text.active, .reveal-image.active, .reveal-card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 {
+      transition-delay: 0.2s;
+    }
+
+    .delay-2 {
+      transition-delay: 0.4s;
+    }
+
+    .delay-3 {
+      transition-delay: 0.6s;
+    }
+
+    .delay-4 {
+      transition-delay: 0.8s;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .hero-content h2 {
+        font-size: 3rem;
+      }
+      
+      .goals-text h2 {
+        font-size: 2.5rem;
+      }
+      
+      .features-grid, .goals-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .workout-card {
+        margin-top: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav, .auth-buttons {
+        display: none;
+      }
+      
+      .mobile-menu-toggle {
+        display: flex;
+      }
+      
+      .mobile-menu {
+        display: block;
+      }
+      
+      .hero-content {
+        margin: 0 auto;
+        text-align: center;
+        padding: 0 20px;
+      }
+      
+      .hero-content h2 {
+        font-size: 2.5rem;
+      }
+      
+      .challenge-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      
+      .footer-legal {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      section {
+        padding: 60px 0;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      .hero-content h2 {
+        font-size: 2rem;
+      }
+      
+      .stat-number {
+        font-size: 2.5rem;
+      }
+      
+      .app-buttons {
+        flex-direction: column;
+      }
+    }
+    /* Login Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  padding: 30px 40px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-strong);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: #222;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  color: #fff;
+}
+
+.modal-content .btn {
+  width: 100%;
+}
+
+.close-btn {
+  float: right;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.close-btn:hover {
+  color: var(--primary-color);
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+    :root {
+      --primary-color: #ff5252;
+      --dark-bg: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --text-secondary: #b3b3b3;
+      --border-color: #333333;
+      --gradient-primary: linear-gradient(135deg, #ff5252, #ff1744);
+      --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.3);
+      --transition-fast: all 0.2s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: 12px 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+    .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  transition: opacity 0.3s ease;
+}
+
+.modal-box {
+  background: var(--card-bg);
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-strong);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.4s ease;
+}
+
+.modal-box h2 {
+  margin-bottom: 20px;
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+  background: var(--darker-bg);
+  color: white;
+}
+
+.modal-box button {
+  width: 100%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: var(--primary-color);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+    
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>FITPULSE</h1>
+      </div>
+    <!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Log In</h2>
+    <form action="login.php" method="POST">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+    
+    <p>Don't have an account? <a href="#" onclick="switchToSignUp()">Sign Up</a></p>
+
+  </div>
+</div>
+<!-- Sign-Up Popup Modal -->
+<div id="signupModal" class="modal-overlay">
+  <div class="modal-box">
+    <span class="close-btn" onclick="toggleModal()">&times;</span>
+    <h2>Create Account</h2>
+    <form action="signup.php" method="POST">
+      <input type="text" name="fullname" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>    
+  </div>
+</div>
+
+    
+    <div class="auth-buttons">
+      <a href="#" class="btn btn-outline">LOG IN</a>
+      <a href="#" class="btn btn-primary">SIGN UP</a>
+    </div>
+    
+    <div class="mobile-menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <ul>
+      
+      <li><a href="#" class="btn btn-outline">LOG IN</a></li>
+      <li><a href="#" class="btn btn-primary">SIGN UP</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2 class="reveal-text">REACH YOUR BEST</h2>
+      <p class="reveal-text delay-1">Whether you're training for a marathon or your biggest season yet, we're here to help you make serious progress.</p>
+      <div class="cta-container reveal-text delay-2">
+        <input type="email" placeholder="Enter your email to get started">
+        <button class="btn btn-primary">GET STARTED</button>
+        <p>Already a member?<a href="#" onclick="switchToLoginIn()">Log in</a></p>
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <!-- Goals Section -->
+  <section class="goals">
+    <div class="container">
+      <div class="goals-content">
+        <div class="goals-text">
+          <h2 class="reveal-text">
+            SET GOALS.<br>
+            LOG WORKOUTS.<br>
+            STAY ON TRACK.
+          </h2>
+          <p class="reveal-text delay-1">Easily track your Workouts, set Training Plans, and discover new Workout Routines to crush your goals.</p>
+          
+        </div>
+        <div class="goals-image reveal-image">
+          <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Runner in action">
+            <div class="image-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenge Section -->
+  <section class="challenge">
+    <div class="container">
+      <div class="challenge-container">
+        <div class="challenge-split">
+          <div class="challenge-image">
+            <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Runners">
+          </div>
+          <div class="challenge-blue">
+            <div class="vs-text">
+              <h3>YOU</h3>
+              <h3>VS.</h3>
+              <h3>THE</h3>
+              <h3>YEAR</h3>
+              <h3>2025</h3>
+            </div>
+          </div>
+        </div>
+        <div class="challenge-info">
+          <h3 class="reveal-text">YOU VS THE YEAR 2025</h3>
+          <p class="reveal-text delay-1">Log 1,025 km in 2025</p>
+          <div class="progress-container reveal-text delay-2">
+            <div class="progress-bar">
+              <div class="progress" style="width: 35%"></div>
+            </div>
+            <p>358.75 km completed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Push Limits Section -->
+  <section class="push-limits">
+    <div class="container">
+      <h2 class="reveal-text">PUSH YOUR LIMITS</h2>
+      <p class="reveal-text delay-1">Hit milestones and PR's by taking on a new challenge every month.</p>
+     
+      
+      <div class="monthly-challenges">
+        <div class="challenge-card reveal-card">
+          <div class="challenge-icon">
+            <i class="fas fa-running"></i>
+          </div>
+          <h3>May Marathon</h3>
+          <p>Run 42.2 km this month</p>
+          <div class="challenge-progress">
+            <div class="progress-bar">
+              <div class="progress" style="width: 65%"></div>
+            </div>
+            <p>65% Complete</p>
+          </div>
+        </div>
+        
+        <div class="challenge-card reveal-card delay-1">
+          <div class="challenge-icon">
+            <i class="fas fa-fire"></i>
+          </div>
+          <h3>Calorie Crusher</h3>
+          <p>Burn 10,000 calories</p>
+          <div class="challenge-progress">
+            <div class="progress-bar">
+              <div class="progress" style="width: 42%"></div>
+            </div>
+            <p>42% Complete</p>
+          </div>
+        </div>
+        
+        <div class="challenge-card reveal-card delay-2">
+          <div class="challenge-icon">
+            <i class="fas fa-mountain"></i>
+          </div>
+          <h3>Elevation Gain</h3>
+          <p>Climb 2,000 meters</p>
+          <div class="challenge-progress">
+            <div class="progress-bar">
+              <div class="progress" style="width: 28%"></div>
+            </div>
+            <p>28% Complete</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="features-grid">
+        <div class="features-text">
+          <h2 class="reveal-text">
+            BUILT TO MAKE YOU<br>
+            BETTER
+          </h2>
+          
+          <div class="feature-item reveal-text delay-1">
+            <h3><i class="fas fa-mobile-alt"></i> Smarter Training</h3>
+            <p>Turn your phone or smartwatch into your coach—track your workouts and get tons of data and tips to help you run better.</p>
+          </div>
+          
+          <div class="feature-item reveal-text delay-2">
+            <h3><i class="fas fa-dumbbell"></i> Custom Workouts</h3>
+            <p>5K? Marathon? No matter where you're at, get personalized Training Plans built just for you and your goals.</p>
+          </div>
+          
+          <div class="feature-item reveal-text delay-3">
+            <h3><i class="fas fa-users"></i> Strong Community</h3>
+            <p>Create your own custom challenges to push yourself and your friends. For extra motivation, reach out and find support from the entire MapMyFitness™️ community.</p>
+          </div>
+            </a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>FITPULSE</h2>
+          <p>powered by <span>Outside</span></p>
+          <div class="app-buttons">
+            <a href="#" class="app-button">
+              <i class="fab fa-apple"></i>
+              <div>
+                <span>Download on the</span>
+                <span>App Store</span>
+              </div>
+            </a>
+            <a href="#" class="app-button">
+              <i class="fab fa-google-play"></i>
+              <div>
+                <span>GET IT ON</span>
+                <span>Google Play</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Help</h3>
+          <ul>
+            <li><a href="#">Log In / Register</a></li>
+            <li><a href="#">Privacy Center</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Developer / API</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h3>About</h3>
+          <ul>
+            <li><a href="#">Go MVP!</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Join Our Team</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Connect</h3>
+          <ul class="social-links">
+            <li><a href="#"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+            <li><a href="https://x.com/home" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="https://www.instagram.com/himaniii__1102/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>           
+             <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+            
+
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        
+        </div>
+        <div class="footer-copyright">
+          ©️ 2025 Outside Interactive®️, Inc. All rights reserved
+        </div>
+        
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+      this.classList.toggle('active');
+      document.querySelector('.mobile-menu').classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+    });
+
+    // Reveal animations on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const revealElements = document.querySelectorAll('.reveal-text, .reveal-image, .reveal-card');
+      
+      function reveal() {
+        for (let i = 0; i < revealElements.length; i++) {
+          const windowHeight = window.innerHeight;
+          const elementTop = revealElements[i].getBoundingClientRect().top;
+          const elementVisible = 150;
+          
+          if (elementTop < windowHeight - elementVisible) {
+            revealElements[i].classList.add('active');
+          }
+        }
+      }
+      
+      window.addEventListener('scroll', reveal);
+      reveal(); // Call once to check for elements in view on page load
+      
+      // Count up animation for stats
+      const countUpElements = document.querySelectorAll('.count-up');
+      
+      function startCountUp() {
+        countUpElements.forEach(element => {
+          const target = parseFloat(element.getAttribute('data-target'));
+          const duration = 2000; // ms
+          const startTime = Date.now();
+          
+          function updateCount() {
+            const currentTime = Date.now();
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            const value = progress * target;
+            element.textContent = value.toFixed(2);
+            
+            if (progress < 1) {
+              requestAnimationFrame(updateCount);
+            }
+          }
+          
+          updateCount();
+        });
+      }
+      
+      // Start count up when stats section is in view
+      const statsSection = document.querySelector('.stats');
+      const statsSectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            startCountUp();
+            statsSectionObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      statsSectionObserver.observe(statsSection);
+    });
+    // LOGIN MODAL LOGIC
+const loginBtns = document.querySelectorAll('.btn-outline');
+const modal = document.getElementById('loginModal');
+const closeBtn = document.querySelector('.close-btn');
+
+loginBtns.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    modal.style.display = 'flex';
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// Toggle Sign-Up Modal
+function toggleModal() {
+  const modal = document.getElementById('signupModal');
+  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// Open modal on sign-up button click
+document.querySelectorAll('.btn.btn-primary').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    if (this.textContent.trim() === 'SIGN UP') {
+      e.preventDefault();
+      toggleModal();
+    }
+  });
+});
+function switchToSignUp() {
+  // Hide login modal
+  document.getElementById('loginModal').style.display = 'none';
+  
+  // Show signup modal
+  document.getElementById('signupModal').style.display = 'flex';
+}
+function switchToLoginIn() {
+  // Hide login modal
+  document.getElementById('loginModal').style.display = 'flex';
+  
+  // Show signup modal
+  document.getElementById('signupModal').style.display = 'none';
+}
+
+  </script>
+</body>
+</html>
